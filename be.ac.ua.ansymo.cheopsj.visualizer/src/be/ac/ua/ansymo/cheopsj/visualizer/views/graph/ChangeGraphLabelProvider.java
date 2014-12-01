@@ -41,6 +41,42 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 	}
 	
 	/**
+	 * Aggregate the number of changes that occured inside a class
+	 * @param c - (FamixClass) the class under consideration
+	 * @return changes - (int[]) aggregated result (totalChanges, addChanges, deleteChanges, modificationChanges)
+	 */
+	private int[] getClassChanges(FamixClass c) {
+		int[] changes = {0,0,0,0};
+		
+		try {
+			Collection<FamixAttribute> attribute_col = c.getAttributes();
+			for (FamixAttribute a : attribute_col) {
+				changes[0] += this.changeManager.getChangeCount(a);
+				changes[1] += this.changeManager.getAddCount(a);
+				changes[2] += this.changeManager.getRemoveCount(a);
+			}
+			
+			Collection<FamixMethod> method_col = c.getMethods();
+			for (FamixMethod m : method_col) {
+				changes[0] += this.changeManager.getChangeCount(m);
+				changes[1] += this.changeManager.getAddCount(m);
+				changes[2] += this.changeManager.getRemoveCount(m);
+			}
+
+			Collection<FamixClass> class_col = c.getNestedClasses();
+			for (FamixClass cc : class_col) {
+				changes[0] += this.changeManager.getChangeCount(cc);
+				changes[1] += this.changeManager.getAddCount(cc);
+				changes[2] += this.changeManager.getRemoveCount(cc);
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return changes;
+	}
+	
+	/**
 	 * Aggregate the number of changes that occured inside a package
 	 * @param pack - (FamixPackage) the package under consideration
 	 * @return changes - (int[]) the aggregated result (totalChanges, addChanges, deleteChanges, modificationChanges)
@@ -48,6 +84,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 	private int[] getPackageChanges(FamixPackage pack) {		
 		int[] changes = {0,0,0,0};
 
+		
 		Collection<FamixClass> classes = pack.getClasses();
 		
 		for (FamixClass c : classes) {
@@ -55,30 +92,30 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 			changes[1] += this.changeManager.getAddCount(c);
 			changes[2] += this.changeManager.getRemoveCount(c);
 			
-/*			try {
+			try {
 				Collection<FamixAttribute> attribute_col = c.getAttributes();
 				for (FamixAttribute a : attribute_col) {
-					totalChanges += this.changeManager.getChangeCount(a);
-					addChanges += this.changeManager.getAddCount(a);
-					deleteChanges += this.changeManager.getRemoveCount(a);
+					changes[0] += this.changeManager.getChangeCount(a);
+					changes[1] += this.changeManager.getAddCount(a);
+					changes[2] += this.changeManager.getRemoveCount(a);
 				}
 				
 				Collection<FamixMethod> method_col = c.getMethods();
 				for (FamixMethod m : method_col) {
-					totalChanges += this.changeManager.getChangeCount(m);
-					addChanges += this.changeManager.getAddCount(m);
-					deleteChanges += this.changeManager.getRemoveCount(m);
+					changes[0] += this.changeManager.getChangeCount(m);
+					changes[1] += this.changeManager.getAddCount(m);
+					changes[2] += this.changeManager.getRemoveCount(m);
 				}
 
 				Collection<FamixClass> class_col = c.getNestedClasses();
 				for (FamixClass cc : class_col) {
-					totalChanges += this.changeManager.getChangeCount(cc);
-					addChanges += this.changeManager.getAddCount(cc);
-					deleteChanges += this.changeManager.getRemoveCount(cc);
+					changes[0] += this.changeManager.getChangeCount(cc);
+					changes[1] += this.changeManager.getAddCount(cc);
+					changes[2] += this.changeManager.getRemoveCount(cc);
 				}
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
-			}*/
+			}
 		}
 		return changes;
 	}
@@ -130,8 +167,11 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 		if (element instanceof FamixEntity) {
 			int[] changes = {0,0,0,0};
 			
-			if (element instanceof FamixPackage)
+			if (element instanceof FamixPackage) {
 				changes = getPackageChanges((FamixPackage) element);
+			} else if (element instanceof FamixClass) {
+				changes = getClassChanges((FamixClass) element);
+			}
 			
 			Date lchange = this.changeManager.getLatestChange((FamixEntity)element).getTimeStamp();
 			System.out.println("CHANGEGRAPHLABELPROVIDER::GETFIGURE::BUILDING FIGURE");

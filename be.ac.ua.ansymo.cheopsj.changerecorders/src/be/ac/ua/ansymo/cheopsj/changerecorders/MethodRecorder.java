@@ -155,7 +155,7 @@ public class MethodRecorder extends AbstractEntityRecorder {
 				
 				famixMethod.setDummy(false);
 			} else {
-				parent = famixMethod.getBelongsToClass();
+				parent = famixMethod.getMethodBelongsToClass();
 			}
 		}
 	}
@@ -168,7 +168,7 @@ public class MethodRecorder extends AbstractEntityRecorder {
 		famixMethod.setFlags(flags);
 		
 		if (parent != null) {
-			famixMethod.setBelongsToClass(parent);
+			famixMethod.setMethodBelongsToClass(parent);
 			parent.addMethod(famixMethod);
 		}
 

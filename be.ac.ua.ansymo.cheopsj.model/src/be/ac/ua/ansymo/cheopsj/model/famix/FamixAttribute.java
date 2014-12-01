@@ -30,7 +30,7 @@ public class FamixAttribute extends FamixStructuralEntity {
 	/*
 	 * (non-javadoc)
 	 */
-	private FamixClass belongsToClass = null;
+	private FamixClass attributeBelongsToClass = null;
 
 	// private String AccessControlQualifier;
 
@@ -43,8 +43,8 @@ public class FamixAttribute extends FamixStructuralEntity {
 	 * 
 	 */
 	@ManyToOne(targetEntity=be.ac.ua.ansymo.cheopsj.model.famix.FamixClass.class)
-	public FamixClass getBelongsToClass() {
-		return belongsToClass;
+	public FamixClass getAttributeBelongsToClass() {
+		return attributeBelongsToClass;
 	}
 
 	/**
@@ -54,8 +54,8 @@ public class FamixAttribute extends FamixStructuralEntity {
 	 *            The belongsToClass to set.
 	 * 
 	 */
-	public void setBelongsToClass(FamixClass belongsToClass) {
-		this.belongsToClass = belongsToClass;
+	public void setAttributeBelongsToClass(FamixClass belongsToClass) {
+		this.attributeBelongsToClass = belongsToClass;
 	}
 
 	@Transient

@@ -94,7 +94,7 @@ public class MethodInvocationRecorder extends StatementRecorder {
 			calledMethodName = ((QualifiedName)expr).getFullyQualifiedName();
 			calledMethodName += "."+node.getName().getIdentifier();
 		}else{
-			calledMethodName = invokedby.getBelongsToClass().getUniqueName() + '.' + node.getName().getIdentifier();
+			calledMethodName = invokedby.getMethodBelongsToClass().getUniqueName() + '.' + node.getName().getIdentifier();
 		}
 		
 		if(manager.famixMethodExists(calledMethodName)){

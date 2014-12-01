@@ -223,7 +223,7 @@ public class FieldRecorder extends AbstractEntityRecorder {
 			FamixClass ContainingClass = manager.getFamixClass(parentUniqueName);
 
 			if (ContainingClass != null) {
-				famixField.setBelongsToClass(ContainingClass);
+				famixField.setAttributeBelongsToClass(ContainingClass);
 				ContainingClass.addAttribute(famixField);
 			}
 

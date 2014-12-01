@@ -123,14 +123,14 @@ public class PrintGraphForGroove {
 				if(belongsToClass != null)
 					printEdgeInGrooveGraph(out, famix.getUniqueID(), belongsToClass.getUniqueID(), "belongsTo");
 			} else if (famix instanceof FamixMethod) {
-				FamixClass belongsToClass = ((FamixMethod) famix).getBelongsToClass();
+				FamixClass belongsToClass = ((FamixMethod) famix).getMethodBelongsToClass();
 				if(belongsToClass != null)
 					printEdgeInGrooveGraph(out, famix.getUniqueID(), belongsToClass.getUniqueID(), "belongsTo");
 //				FamixClass returnClass = ((FamixMethod) famix).getDeclaredReturnClass();
 //				if(returnClass != null)
 //					printEdgeInGrooveGraph(out, famix.getUniqueID(), returnClass.getUniqueID(), "returnClass");
 			} else if (famix instanceof FamixAttribute) {
-				FamixClass belongsToClass = ((FamixAttribute) famix).getBelongsToClass();
+				FamixClass belongsToClass = ((FamixAttribute) famix).getAttributeBelongsToClass();
 				if(belongsToClass != null)
 					printEdgeInGrooveGraph(out, famix.getUniqueID(), belongsToClass.getUniqueID(), "belongsTo");
 				FamixClass declaredClass = ((FamixAttribute) famix).getDeclaredClass();

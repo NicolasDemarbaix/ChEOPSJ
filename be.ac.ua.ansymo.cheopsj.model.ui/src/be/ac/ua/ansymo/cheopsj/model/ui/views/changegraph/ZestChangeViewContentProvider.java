@@ -93,10 +93,10 @@ public class ZestChangeViewContentProvider implements IGraphEntityContentProvide
 			result.add(((FamixClass) entity).getBelongsToPackage());
 			result.add(((FamixClass) entity).getBelongsToClass());
 		} else if (entity instanceof FamixMethod) {
-			result.add(((FamixMethod) entity).getBelongsToClass());
+			result.add(((FamixMethod) entity).getMethodBelongsToClass());
 			//result.add(((FamixMethod) entity).getDeclaredReturnClass());
 		} else if (entity instanceof FamixAttribute) {
-			result.add(((FamixAttribute) entity).getBelongsToClass());
+			result.add(((FamixAttribute) entity).getAttributeBelongsToClass());
 			result.add(((FamixAttribute) entity).getDeclaredClass());
 		} else if (entity instanceof FamixInvocation) {
 			result.addAll(((FamixInvocation) entity).getCandidates());

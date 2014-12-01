@@ -108,7 +108,7 @@ public class FamixClass extends FamixEntity {
 	}
 
 	@OneToMany(
-			mappedBy="belongsToClass",
+			mappedBy="methodBelongsToClass",
 			targetEntity=be.ac.ua.ansymo.cheopsj.model.famix.FamixMethod.class)
 	public Collection<FamixMethod> getMethods() {
 		return methods;
@@ -132,7 +132,7 @@ public class FamixClass extends FamixEntity {
 	}
 
 	@OneToMany(
-			mappedBy="belongsToClass",
+			mappedBy="attributeBelongsToClass",
 			targetEntity=be.ac.ua.ansymo.cheopsj.model.famix.FamixAttribute.class)
 	public Collection<FamixAttribute> getAttributes() {
 		return attributes;

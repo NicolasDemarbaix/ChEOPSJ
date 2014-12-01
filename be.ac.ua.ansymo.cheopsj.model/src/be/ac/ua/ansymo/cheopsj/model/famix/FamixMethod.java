@@ -30,7 +30,7 @@ public class FamixMethod extends FamixBehaviouralEntity {
 	/*
 	 * (non-javadoc)
 	 */
-	private FamixClass belongsToClass = null;
+	private FamixClass methodBelongsToClass = null;
 
 	private boolean hasClassScope;
 	private boolean isAbstract;
@@ -46,8 +46,8 @@ public class FamixMethod extends FamixBehaviouralEntity {
 	 */
 	@ManyToOne(
 			targetEntity=be.ac.ua.ansymo.cheopsj.model.famix.FamixClass.class)
-	public FamixClass getBelongsToClass() {
-		return belongsToClass;
+	public FamixClass getMethodBelongsToClass() {
+		return methodBelongsToClass;
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class FamixMethod extends FamixBehaviouralEntity {
 	 *            The belongsToClass to set.
 	 * 
 	 */
-	public void setBelongsToClass(FamixClass belongsToClass) {
-		this.belongsToClass = belongsToClass;
+	public void setMethodBelongsToClass(FamixClass belongsToClass) {
+		this.methodBelongsToClass = belongsToClass;
 	}
 
 	@Transient
