@@ -8,12 +8,17 @@ import java.util.Date;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.viewers.IFigureProvider;
 
+import be.ac.ua.ansymo.cheopsj.model.ModelManager;
 import be.ac.ua.ansymo.cheopsj.model.ModelManagerChange;
 import be.ac.ua.ansymo.cheopsj.model.famix.FamixAttribute;
 import be.ac.ua.ansymo.cheopsj.model.famix.FamixClass;
@@ -54,6 +59,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 				changes[0] += this.changeManager.getChangeCount(a);
 				changes[1] += this.changeManager.getAddCount(a);
 				changes[2] += this.changeManager.getRemoveCount(a);
+				//changes[3] += this.changeManager.getModificationCount(a);
 			}
 			
 			Collection<FamixMethod> method_col = c.getMethods();
@@ -61,6 +67,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 				changes[0] += this.changeManager.getChangeCount(m);
 				changes[1] += this.changeManager.getAddCount(m);
 				changes[2] += this.changeManager.getRemoveCount(m);
+				//changes[3] += this.changeManager.getModificationCount(m);
 			}
 
 			Collection<FamixClass> class_col = c.getNestedClasses();
@@ -68,6 +75,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 				changes[0] += this.changeManager.getChangeCount(cc);
 				changes[1] += this.changeManager.getAddCount(cc);
 				changes[2] += this.changeManager.getRemoveCount(cc);
+				//changes[3] += this.changeManager.getModificationCount(cc);
 			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -91,6 +99,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 			changes[0] += this.changeManager.getChangeCount(c);
 			changes[1] += this.changeManager.getAddCount(c);
 			changes[2] += this.changeManager.getRemoveCount(c);
+			//changes[3] += this.changeManager.getModificationCount(c);
 			
 			try {
 				Collection<FamixAttribute> attribute_col = c.getAttributes();
@@ -98,6 +107,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 					changes[0] += this.changeManager.getChangeCount(a);
 					changes[1] += this.changeManager.getAddCount(a);
 					changes[2] += this.changeManager.getRemoveCount(a);
+			//		changes[3] += this.changeManager.getModificationCount(a);
 				}
 				
 				Collection<FamixMethod> method_col = c.getMethods();
@@ -105,6 +115,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 					changes[0] += this.changeManager.getChangeCount(m);
 					changes[1] += this.changeManager.getAddCount(m);
 					changes[2] += this.changeManager.getRemoveCount(m);
+			//		changes[3] += this.changeManager.getModificationCount(m);
 				}
 
 				Collection<FamixClass> class_col = c.getNestedClasses();
@@ -112,6 +123,7 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 					changes[0] += this.changeManager.getChangeCount(cc);
 					changes[1] += this.changeManager.getAddCount(cc);
 					changes[2] += this.changeManager.getRemoveCount(cc);
+			//		changes[3] += this.changeManager.getModificationCount(cc);
 				}
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
@@ -189,5 +201,41 @@ public class ChangeGraphLabelProvider extends LabelProvider implements IConnecti
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/*
+	 * ================================
+	 * ChangeGraphLabelProvider Methods
+	 * ================================
+	 */
+	public void showInfoDialog(String element) {
+		if (ModelManager.getInstance().famixPackageExists(element)) {
+			FamixPackage pack = ModelManager.getInstance().getFamixPackage(element);
+			MessageBox dialog = new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_INFORMATION | SWT.OK);
+			dialog.setText("Package Information: " + element);
+			dialog.setMessage(constructDialogString(pack));
+			dialog.open();
+		} else {
+			MessageBox dialog = new MessageBox(Display.getCurrent().getActiveShell(), SWT.ICON_ERROR | SWT.OK);
+			dialog.open();
+		}
+	}
+	
+	private String constructDialogString(FamixPackage pack) {
+		String dialogString = "";
+		
+		int[] changes = getPackageChanges(pack);
+		
+		dialogString = "This package contains: \n" + 
+				"   * Information about " + pack.getClasses().size() + " classes (some of which might have been deleted)\n" + 
+			//	"   * " + pack.getGlobalVariable().size() + " global variables\n" + 
+			//	"   * " + pack.getPackages() + " sub packages\n" +
+				"\n Information about changes: \n" +
+				"   * " + pack.getAffectingChanges().size() + " changes affect this package\n" + 
+				"   * " + changes[0] + " changes occured to elements in this package\n" + 
+				"   * " + changes[1] + " of these changes were additions\n" + 
+				"   * " + changes[2] + " of these changes were removals\n" /*+ 
+				"   * " + changes[3] + " of these changes were modifications\n"*/;
+		
+		return dialogString;
+	}
 }

@@ -111,7 +111,6 @@ public class ChangeGraph extends ViewPart {
 							((ChangeGraphContentProvider) viewer.getContentProvider()).setPackageNameToExpand(figLabel);							
 						}
 					});
-					MenuItem sep = new MenuItem(menu, SWT.SEPARATOR);
 					MenuItem compress = new MenuItem(menu, SWT.NONE);
 					compress.setText("Compress Package");
 					compress.addSelectionListener(new SelectionListener() {
@@ -124,6 +123,22 @@ public class ChangeGraph extends ViewPart {
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
 							((ChangeGraphContentProvider) viewer.getContentProvider()).removePackageNameToExpand();							
+						}
+					});
+					MenuItem sep = new MenuItem(menu, SWT.SEPARATOR);
+					MenuItem showInformation = new MenuItem(menu, SWT.NONE);
+					showInformation.setText("Show Info");
+					showInformation.addSelectionListener(new SelectionListener() {
+						
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							((ChangeGraphLabelProvider) viewer.getLabelProvider()).showInfoDialog("pack");
+						}
+						
+						@Override
+						public void widgetDefaultSelected(SelectionEvent e) {
+							// TODO Auto-generated method stub
+							
 						}
 					});
 					MenuItem sep2 = new MenuItem(menu, SWT.SEPARATOR);

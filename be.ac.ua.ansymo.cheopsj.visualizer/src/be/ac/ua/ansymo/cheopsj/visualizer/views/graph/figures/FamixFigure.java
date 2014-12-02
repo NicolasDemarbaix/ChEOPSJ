@@ -62,6 +62,7 @@ public class FamixFigure extends Figure {
 		System.out.println("Total changes == " + totalChanges);
 		System.out.println("Add changes == " + addChanges);
 		System.out.println("Delete changes == " + deleteChanges);
+		System.out.println("Modify changes == " + modificationChanges);
 		if (totalChanges == 0) {
 			return this.fEnt.getIcon();
 		} else {
